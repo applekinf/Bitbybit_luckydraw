@@ -21,7 +21,10 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    background: radial-gradient(ellipse at top, #2A1810 0%, var(--ink) 55%, #100B08 100%);
+    --background: radial-gradient(ellipse at top, #2A1810 0%, var(--ink) 55%, #100B08 100%);
+	background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)), url('background.jpg');
+	background-size: cover;
+	background-position: center;
     color: var(--ivory);
     font-family: 'Be Vietnam Pro', sans-serif;
     min-height: 100vh;
@@ -71,7 +74,7 @@
 
   .eyebrow {
     text-align: center;
-    font-size: 12px;
+    font-size: 26px;
     letter-spacing: 0.42em;
     text-transform: uppercase;
     color: var(--brass-light);
@@ -432,7 +435,7 @@
   <!-- ===== TAB: QUAY SỐ (dùng để chiếu lên màn hình) ===== -->
   <div class="tab-panel active" id="panel-spin">
     <div class="eyebrow">Chương Trình Gặp Mặt</div>
-    <h1>Đại Gia Đình Trung Tâm<br>Kinh Doanh Giải Pháp</h1>
+    <h1>Đại Gia Đình<br>Trung Tâm Kinh Doanh Giải Pháp</h1>
     <div class="subtitle">Quay Số Trúng Thưởng</div>
 
     <div class="drum-frame">
