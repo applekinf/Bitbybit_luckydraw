@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quay Số Trúng Thưởng</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,600&family=Be+Vietnam+Pro:wght@400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1B1410;
+    --lacquer: #7A1F2B;
+    --lacquer-deep: #5A1620;
+    --brass: #C9A227;
+    --brass-light: #E8C766;
+    --ivory: #F3E9D2;
+    --emerald: #2F5233;
+    --paper: #FAF6EC;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: radial-gradient(ellipse at top, #2A1810 0%, var(--ink) 55%, #100B08 100%);
+    color: var(--ivory);
+    font-family: 'Be Vietnam Pro', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 16px;
+  }
+
+  .stage {
+    width: 100%;
+    max-width: 640px;
+  }
+
+  /* ---- Tabs ---- */
+  .tabbar {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    margin-bottom: 22px;
+  }
+
+  .tab-btn {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 9px 18px;
+    border-radius: 999px;
+    border: 1px solid #4a3624;
+    background: transparent;
+    color: #B7A78C;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .tab-btn:hover { color: var(--brass-light); border-color: var(--brass); }
+  .tab-btn.active {
+    background: linear-gradient(180deg, var(--brass-light), var(--brass));
+    color: var(--ink);
+    border-color: transparent;
+  }
+  .tab-btn:focus-visible { outline: 3px solid var(--brass-light); outline-offset: 2px; }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  .eyebrow {
+    text-align: center;
+    font-size: 12px;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--brass-light);
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-style: italic;
+    font-size: clamp(26px, 4.6vw, 38px);
+    color: var(--ivory);
+    margin-bottom: 6px;
+    letter-spacing: 0.01em;
+  }
+
+  .subtitle {
+    text-align: center;
+    font-size: 14px;
+    color: #C9BBA8;
+    margin-bottom: 30px;
+    line-height: 1.5;
+  }
+
+  /* ---- Drum window ---- */
+  .drum-frame {
+    position: relative;
+    background: linear-gradient(160deg, var(--brass-light), var(--brass) 40%, #8a6c17 100%);
+    border-radius: 22px;
+    padding: 10px;
+    box-shadow: 0 30px 60px -20px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.08) inset;
+  }
+
+  .drum-frame::before, .drum-frame::after {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #fff8d8, #a3801c 70%);
+    top: 14px;
+  }
+  .drum-frame::before { left: 14px; }
+  .drum-frame::after { right: 14px; }
+
+  .drum-window {
+    background:
+      repeating-linear-gradient(115deg, rgba(255,255,255,0.03) 0 2px, transparent 2px 8px),
+      linear-gradient(180deg, var(--lacquer-deep), var(--lacquer) 45%, var(--lacquer-deep));
+    border-radius: 14px;
+    padding: 46px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 170px;
+    box-shadow: inset 0 8px 30px rgba(0,0,0,0.55), inset 0 -4px 10px rgba(0,0,0,0.4);
+  }
+
+  .reel-window {
+    position: relative;
+    overflow: hidden;
+    width: clamp(48px, 11vw, 78px);
+    height: clamp(64px, 16vw, 110px);
+    border-radius: 8px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.06), transparent 40%);
+    box-shadow: inset 0 6px 10px rgba(0,0,0,0.35), inset 0 -6px 10px rgba(0,0,0,0.35);
+  }
+
+  .reel-window::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.45) 0%, transparent 22%, transparent 78%, rgba(0,0,0,0.45) 100%);
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .reel-strip {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    will-change: transform;
+  }
+
+  .digit-item {
+    width: 100%;
+    height: clamp(64px, 16vw, 110px);
+    line-height: clamp(64px, 16vw, 110px);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(64px, 16vw, 110px);
+    text-align: center;
+    color: var(--brass-light);
+    text-shadow: 0 0 18px rgba(232,199,102,0.35), 0 2px 0 #000;
+  }
+
+  .reel-window.landed {
+    animation: landPulse 0.55s ease-out;
+  }
+
+  @keyframes landPulse {
+    0%   { box-shadow: inset 0 6px 10px rgba(0,0,0,0.35), inset 0 -6px 10px rgba(0,0,0,0.35), 0 0 0 rgba(232,199,102,0); }
+    35%  { box-shadow: inset 0 6px 10px rgba(0,0,0,0.35), inset 0 -6px 10px rgba(0,0,0,0.35), 0 0 24px rgba(232,199,102,0.9); }
+    100% { box-shadow: inset 0 6px 10px rgba(0,0,0,0.35), inset 0 -6px 10px rgba(0,0,0,0.35), 0 0 0 rgba(232,199,102,0); }
+  }
+
+  .status-line {
+    text-align: center;
+    margin-top: 16px;
+    font-size: 13px;
+    color: var(--brass-light);
+    letter-spacing: 0.08em;
+    min-height: 18px;
+  }
+
+  #spinBtn {
+    width: 100%;
+    margin-top: 22px;
+    padding: 16px;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-weight: 700;
+    font-size: 17px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    color: var(--ink);
+    background: linear-gradient(180deg, var(--brass-light), var(--brass));
+    box-shadow: 0 8px 20px -6px rgba(201,162,39,0.5);
+    transition: transform 0.15s ease, filter 0.15s ease;
+  }
+  #spinBtn:hover { filter: brightness(1.06); }
+  #spinBtn:active { transform: scale(0.97); }
+  #spinBtn:disabled { opacity: 0.6; cursor: not-allowed; filter: none; }
+  #spinBtn:focus-visible { outline: 3px solid var(--brass-light); outline-offset: 2px; }
+
+  /* ---- History ---- */
+  .history-section {
+    margin-top: 30px;
+  }
+
+  .history-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 12px;
+  }
+
+  .history-head h2 {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--brass-light);
+  }
+
+  .history-count {
+    font-size: 12px;
+    color: #B7A78C;
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    max-height: 200px;
+    overflow-y: auto;
+    padding-right: 4px;
+  }
+
+  .chip {
+    background: linear-gradient(180deg, #2c1f16, #1e150f);
+    border: 1px solid #4a3624;
+    color: var(--brass-light);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 0.04em;
+    padding: 6px 12px;
+    border-radius: 8px;
+    animation: pop 0.3s ease;
+  }
+
+  @keyframes pop {
+    from { transform: scale(0.6); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  .empty-note {
+    font-size: 13px;
+    color: #7d6d58;
+    font-style: italic;
+  }
+
+  /* ---- Settings tab ---- */
+  .settings-card {
+    background: #1e150f;
+    border: 1px solid #4a3624;
+    border-radius: 16px;
+    padding: 24px;
+  }
+
+  .settings-title {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--brass-light);
+    margin-bottom: 4px;
+  }
+
+  .settings-desc {
+    font-size: 13px;
+    color: #B7A78C;
+    margin-bottom: 22px;
+    line-height: 1.5;
+  }
+
+  .range-fields {
+    display: flex;
+    gap: 12px;
+  }
+
+  .field { flex: 1; }
+
+  .field label {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #B7A78C;
+    margin-bottom: 6px;
+  }
+
+  .field input {
+    width: 100%;
+    background: #241811;
+    border: 1px solid #4a3624;
+    color: var(--ivory);
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .field input:focus { outline: none; border-color: var(--brass); }
+
+  .secondary-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 18px;
+  }
+  .secondary-row button {
+    flex: 1;
+    padding: 11px;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    border-radius: 10px;
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid #4a3624;
+    color: #C9BBA8;
+    transition: all 0.15s ease;
+  }
+  .secondary-row button:hover { border-color: var(--brass); color: var(--brass-light); }
+  .secondary-row button:focus-visible { outline: 3px solid var(--brass-light); outline-offset: 2px; }
+
+  .apply-note {
+    margin-top: 16px;
+    font-size: 12px;
+    color: #7d6d58;
+    text-align: center;
+    min-height: 16px;
+  }
+
+  .sound-toggle-row {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid #3a2a1c;
+  }
+
+  .switch-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+  }
+
+  .switch-label input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .switch-track {
+    flex-shrink: 0;
+    width: 42px;
+    height: 24px;
+    background: #3a2a1c;
+    border: 1px solid #4a3624;
+    border-radius: 999px;
+    position: relative;
+    transition: background 0.2s ease;
+  }
+
+  .switch-thumb {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 18px;
+    height: 18px;
+    background: #B7A78C;
+    border-radius: 50%;
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+
+  .switch-label input:checked + .switch-track {
+    background: linear-gradient(180deg, var(--brass-light), var(--brass));
+  }
+
+  .switch-label input:checked + .switch-track .switch-thumb {
+    transform: translateX(18px);
+    background: var(--ink);
+  }
+
+  .switch-label input:focus-visible + .switch-track {
+    outline: 3px solid var(--brass-light);
+    outline-offset: 2px;
+  }
+
+  .switch-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ivory);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reel-strip { transition: none !important; }
+    .reel-window.landed { animation: none; }
+    .chip { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="stage">
+
+  <div class="tabbar">
+    <button class="tab-btn active" data-tab="spin">Quay Số</button>
+    <button class="tab-btn" data-tab="settings">Cài Đặt</button>
+  </div>
+
+  <!-- ===== TAB: QUAY SỐ (dùng để chiếu lên màn hình) ===== -->
+  <div class="tab-panel active" id="panel-spin">
+    <div class="eyebrow">Chương Trình Gặp Mặt</div>
+    <h1>Đại Gia Đình Trung Tâm<br>Kinh Doanh Giải Pháp</h1>
+    <div class="subtitle">Quay Số Trúng Thưởng</div>
+
+    <div class="drum-frame">
+      <div class="drum-window" id="drumWindow"></div>
+    </div>
+    <div class="status-line" id="statusLine">Sẵn sàng quay — còn <span id="remainingCount">100</span> số trong hộp</div>
+
+    <button id="spinBtn">Quay Số</button>
+
+    <div class="history-section">
+      <div class="history-head">
+        <h2>Danh Sách Trúng Thưởng</h2>
+        <span class="history-count" id="historyCount">0 số đã quay</span>
+      </div>
+      <div class="chips" id="chipsList">
+        <span class="empty-note">Chưa có số nào được quay</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== TAB: CÀI ĐẶT (không hiển thị khi chiếu) ===== -->
+  <div class="tab-panel" id="panel-settings">
+    <div class="settings-card">
+      <div class="settings-title">Cấu Hình Dải Số &amp; Hiệu Ứng</div>
+      <div class="settings-desc">Thiết lập khoảng số và thời gian xoay trước khi bắt đầu chương trình. Chuyển sang tab "Quay Số" để trình chiếu — tab này sẽ không hiển thị phần cấu hình.</div>
+
+      <div class="range-fields">
+        <div class="field">
+          <label for="minInput">Từ số</label>
+          <input type="number" id="minInput" value="1" min="0" max="9999">
+        </div>
+        <div class="field">
+          <label for="maxInput">Đến số</label>
+          <input type="number" id="maxInput" value="100" min="0" max="9999">
+        </div>
+      </div>
+
+      <div class="range-fields" style="margin-top: 14px;">
+        <div class="field">
+          <label for="durationInput">Thời gian xoay (giây)</label>
+          <input type="number" id="durationInput" value="3" min="1" max="15" step="0.5">
+        </div>
+      </div>
+
+      <div class="sound-toggle-row">
+        <label class="switch-label" for="soundToggle">
+          <input type="checkbox" id="soundToggle" checked>
+          <span class="switch-track"><span class="switch-thumb"></span></span>
+          <span class="switch-text">Bật âm thanh khi quay số</span>
+        </label>
+      </div>
+
+      <div class="secondary-row">
+        <button id="applyBtn">Áp Dụng Dải Số Mới</button>
+        <button id="undoBtn">Hoàn Tác Số Vừa Quay</button>
+        <button id="resetBtn">Làm Mới Toàn Bộ</button>
+      </div>
+      <div class="apply-note" id="applyNote"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const drumWindow = document.getElementById('drumWindow');
+  const spinBtn = document.getElementById('spinBtn');
+  const undoBtn = document.getElementById('undoBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const applyBtn = document.getElementById('applyBtn');
+  const minInput = document.getElementById('minInput');
+  const maxInput = document.getElementById('maxInput');
+  const durationInput = document.getElementById('durationInput');
+  const statusLine = document.getElementById('statusLine');
+  const remainingCount = document.getElementById('remainingCount');
+  const chipsList = document.getElementById('chipsList');
+  const historyCount = document.getElementById('historyCount');
+  const applyNote = document.getElementById('applyNote');
+  const soundToggle = document.getElementById('soundToggle');
+
+  let drawn = [];
+  let pool = [];
+  let spinning = false;
+  let currentDigits = 3;
+
+  // ---- Sound engine (synthesized via Web Audio API, no external files needed) ----
+  let audioCtx = null;
+  function ensureAudio() {
+    if (!audioCtx) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    return audioCtx;
+  }
+
+  function playTick() {
+    if (!soundToggle.checked) return;
+    const ctx = ensureAudio();
+    const t = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'square';
+    osc.frequency.setValueAtTime(950, t);
+    gain.gain.setValueAtTime(0.0001, t);
+    gain.gain.exponentialRampToValueAtTime(0.12, t + 0.004);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.06);
+    osc.connect(gain).connect(ctx.destination);
+    osc.start(t);
+    osc.stop(t + 0.07);
+  }
+
+  function playLand(index) {
+    if (!soundToggle.checked) return;
+    const ctx = ensureAudio();
+    const notes = [523.25, 659.25, 783.99, 1046.5]; // C5, E5, G5, C6 — ascending chime
+    const freq = notes[Math.min(index, notes.length - 1)];
+    const t = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(freq, t);
+    gain.gain.setValueAtTime(0.0001, t);
+    gain.gain.exponentialRampToValueAtTime(0.28, t + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.5);
+    osc.connect(gain).connect(ctx.destination);
+    osc.start(t);
+    osc.stop(t + 0.55);
+  }
+
+  function playFanfare() {
+    if (!soundToggle.checked) return;
+    const ctx = ensureAudio();
+    const t0 = ctx.currentTime;
+    [523.25, 659.25, 783.99, 1046.5].forEach((freq, i) => {
+      const t = t0 + i * 0.09;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(freq, t);
+      gain.gain.setValueAtTime(0.0001, t);
+      gain.gain.exponentialRampToValueAtTime(0.32, t + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.6);
+      osc.connect(gain).connect(ctx.destination);
+      osc.start(t);
+      osc.stop(t + 0.65);
+    });
+  }
+
+  // Ticking sound that decelerates in step with the reels, independent of
+  // any single column, for the full duration of the longest-spinning column.
+  function scheduleSpinTicks(totalDuration) {
+    const start = performance.now();
+    const minGap = 45;
+    const maxGap = 230;
+    function next() {
+      const elapsed = performance.now() - start;
+      if (elapsed >= totalDuration) return;
+      const progress = elapsed / totalDuration;
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const gap = minGap + (maxGap - minGap) * eased;
+      playTick();
+      setTimeout(next, gap);
+    }
+    next();
+  }
+
+  // ---- Tabs ----
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  function buildPool() {
+    const min = parseInt(minInput.value, 10);
+    const max = parseInt(maxInput.value, 10);
+    pool = [];
+    for (let i = min; i <= max; i++) pool.push(i);
+    currentDigits = String(max).length;
+    drawn = [];
+    renderIdle(min);
+    updateStatus();
+    renderChips();
+  }
+
+  function pad(num) {
+    return String(num).padStart(currentDigits, '0');
+  }
+
+  // Static display (idle state / after undo) — one digit per column, no reel.
+  function renderIdle(num) {
+    const str = pad(num);
+    drumWindow.innerHTML = '';
+    for (const ch of str) {
+      const win = document.createElement('div');
+      win.className = 'reel-window';
+      const strip = document.createElement('div');
+      strip.className = 'reel-strip';
+      const item = document.createElement('div');
+      item.className = 'digit-item';
+      item.textContent = ch;
+      strip.appendChild(item);
+      win.appendChild(strip);
+      drumWindow.appendChild(win);
+    }
+  }
+
+  function updateStatus() {
+    remainingCount.textContent = pool.length;
+    if (pool.length === 0) {
+      statusLine.textContent = 'Đã quay hết toàn bộ số trong hộp!';
+    } else {
+      statusLine.textContent = 'Sẵn sàng quay — còn ' + pool.length + ' số trong hộp';
+    }
+    historyCount.textContent = drawn.length + ' số đã quay';
+  }
+
+  function renderChips() {
+    if (drawn.length === 0) {
+      chipsList.innerHTML = '<span class="empty-note">Chưa có số nào được quay</span>';
+      return;
+    }
+    chipsList.innerHTML = '';
+    for (let i = drawn.length - 1; i >= 0; i--) {
+      const chip = document.createElement('span');
+      chip.className = 'chip';
+      chip.textContent = pad(drawn[i]);
+      chipsList.appendChild(chip);
+    }
+  }
+
+  // Spin: each column is a real reel of digits 0-9 that scrolls and decelerates
+  // to a stop — leftmost column (hundreds) stops first, then tens, then units last.
+  function spin() {
+    if (spinning) return;
+    if (pool.length === 0) {
+      statusLine.textContent = 'Không còn số nào để quay — vào tab Cài Đặt để Làm Mới';
+      return;
+    }
+    spinning = true;
+    spinBtn.disabled = true;
+    spinBtn.textContent = 'Đang Quay...';
+    ensureAudio(); // unlock audio on this user gesture
+
+    const totalDuration = Math.max(1200, (parseFloat(durationInput.value) || 3) * 1000);
+    const idx = Math.floor(Math.random() * pool.length);
+    const winner = pool[idx];
+    pool.splice(idx, 1);
+
+    const targetStr = pad(winner);
+    const digitsCount = targetStr.length;
+    const stepGap = totalDuration / digitsCount;
+
+    drumWindow.innerHTML = '';
+    const columns = [];
+
+    targetStr.split('').forEach((chStr, i) => {
+      const target = parseInt(chStr, 10);
+      const stopTime = Math.round(stepGap * (i + 1)); // leftmost stops earliest
+      const loops = Math.max(4, Math.round(stopTime / 280));
+      const length = loops * 10 + target + 1; // sequence 0..9 repeated, ends exactly on target
+
+      const win = document.createElement('div');
+      win.className = 'reel-window';
+      const strip = document.createElement('div');
+      strip.className = 'reel-strip';
+      for (let k = 0; k < length; k++) {
+        const item = document.createElement('div');
+        item.className = 'digit-item';
+        item.textContent = k % 10;
+        strip.appendChild(item);
+      }
+      win.appendChild(strip);
+      drumWindow.appendChild(win);
+      columns.push({ win, strip, length, stopTime });
+    });
+
+    // Let the browser lay out the strips at translateY(0) first, then animate
+    // to their final position — required so the CSS transition actually plays.
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        columns.forEach(({ win, strip, length, stopTime }, i) => {
+          const digitHeight = win.getBoundingClientRect().height;
+          strip.style.transition = 'transform ' + stopTime + 'ms cubic-bezier(0.15, 0.85, 0.32, 1)';
+          strip.style.transform = 'translateY(-' + ((length - 1) * digitHeight).toFixed(3) + 'px)';
+          strip.addEventListener('transitionend', function handler(e) {
+            if (e.propertyName !== 'transform') return;
+            strip.removeEventListener('transitionend', handler);
+            win.classList.add('landed');
+            playLand(i);
+          }, { once: true });
+        });
+      });
+    });
+
+    const maxStop = Math.max(...columns.map(c => c.stopTime));
+    scheduleSpinTicks(maxStop);
+    setTimeout(() => finalizeSpin(winner), maxStop + 80);
+  }
+
+  function finalizeSpin(winner) {
+    drawn.push(winner);
+    updateStatus();
+    renderChips();
+    spinning = false;
+    spinBtn.disabled = false;
+    spinBtn.textContent = 'Quay Số';
+    playFanfare();
+  }
+
+  function undo() {
+    if (drawn.length === 0 || spinning) return;
+    const last = drawn.pop();
+    pool.push(last);
+    const displayVal = drawn.length ? drawn[drawn.length - 1] : parseInt(minInput.value, 10);
+    renderIdle(displayVal);
+    updateStatus();
+    renderChips();
+    applyNote.textContent = 'Đã hoàn tác số ' + pad(last);
+  }
+
+  spinBtn.addEventListener('click', spin);
+  undoBtn.addEventListener('click', undo);
+  resetBtn.addEventListener('click', () => {
+    if (spinning) return;
+    buildPool();
+    applyNote.textContent = 'Đã làm mới toàn bộ danh sách';
+  });
+  applyBtn.addEventListener('click', () => {
+    if (spinning) return;
+    buildPool();
+    applyNote.textContent = 'Đã áp dụng dải số ' + minInput.value + ' – ' + maxInput.value;
+  });
+
+  buildPool();
+</script>
+
+</body>
+</html>
