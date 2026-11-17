@@ -159,7 +159,7 @@ body.hubmode #hud,body.hubmode #minimap{opacity:0;pointer-events:none;transform:
 .v-notes.on{max-height:120px}
 .v-notes div{padding:12px 22px}
 .pop{animation:pop .55s cubic-bezier(.2,.9,.3,1.25) both;animation-delay:calc(var(--i,0)*70ms + 150ms)}
-@keyframes pop{from{opacity:0;transform:scale(.6) translateY(20px)}}
+@keyframes pop{from{opacity:0;scale:.6;translate:0 20px}}
 [data-say]{cursor:pointer}
 .spk{font-style:normal;font-size:.8em;opacity:.55;background:none}
 
@@ -191,6 +191,38 @@ body.hubmode #hud,body.hubmode #minimap{opacity:0;pointer-events:none;transform:
 .vc b{font-size:clamp(20px,3.4vh,34px);color:#1f3b63;margin-top:.5vh}
 .vc small{color:#d63c32;font-weight:600;font-size:clamp(13px,1.9vh,18px)}
 .vc p{margin-top:.8vh;font-size:clamp(14px,2.1vh,20px);color:#3a4a5c}
+.vbar{display:flex;gap:10px;align-items:center;margin-bottom:1.4vh}
+.vbar h2{margin:0;flex:1}
+.mode{background:#f1ebe0;padding:9px 16px;border-radius:20px;font-weight:700;font-size:14px;transition:.2s}
+.mode.on{background:#1f4e8c;color:#fff;box-shadow:0 4px 0 #163a69}
+.pimg{background-size:cover;background-position:center}
+.pemo{font-size:min(11vh,7vw)}
+/* chế độ đoán */
+.gc .gf{background:#fff;border:2px solid #eee5d8;padding:0;overflow:hidden}
+.gc .gf .pimg{position:absolute;inset:0}
+.gq{position:absolute;right:10px;top:10px;width:5.4vh;height:5.4vh;border-radius:50%;background:#d63c32;color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:3vh;box-shadow:0 4px 10px rgba(0,0,0,.3);animation:wob 2s ease-in-out infinite}
+@keyframes wob{50%{rotate:12deg;scale:1.1}}
+.gn{position:absolute;left:10px;top:10px;background:rgba(255,255,255,.92);border-radius:12px;padding:2px 10px;font-weight:800;color:#1f3b63}
+.gc .gb{background:#ffd84a;border:none;box-shadow:inset 0 -6px 0 #e0b400}
+.gb b{font-size:clamp(24px,4.4vh,44px);color:#3a2a00;line-height:1.1}
+.gb small{font-size:clamp(13px,2vh,18px);color:#7a5a00;margin-top:.3vh}
+.gb p{font-size:clamp(14px,2.1vh,20px);font-weight:500;color:#3a2a00;margin-top:.8vh}
+.gb .spk{position:absolute;right:10px;bottom:8px;font-size:22px;opacity:.7}
+/* chế độ trình chiếu */
+.vk-i{display:flex;flex-direction:column;gap:1vh;cursor:pointer;min-height:0}
+.vk-pic{flex:1;min-height:0;position:relative;border-radius:16px;background:#fff;box-shadow:0 10px 24px rgba(0,0,0,.14);border:4px solid #fff;overflow:hidden;display:flex;align-items:center;justify-content:center;opacity:0;scale:.2;rotate:-10deg;transition:opacity .3s .25s,scale .6s .25s cubic-bezier(.2,1.5,.4,1),rotate .6s .25s cubic-bezier(.2,1.5,.4,1)}
+.vk-pic .pimg{position:absolute;inset:0}
+.vk-lab{background:#ffd84a;border-radius:10px;padding:.8vh 1vw;text-align:center;transform:scaleX(0);transition:transform .35s cubic-bezier(.3,1.3,.5,1);box-shadow:0 4px 0 #e0b400}
+.vk-lab span{display:block;opacity:0;transition:opacity .3s .25s}
+.vk-lab b{font-size:clamp(20px,3.4vh,34px);color:#3a2a00;display:block;line-height:1.2}
+.vk-lab small{font-size:clamp(12px,1.7vh,16px);color:#7a5a00}
+.vk-i.show .vk-pic{opacity:1;scale:1;rotate:0deg}
+.vk-i.show .vk-lab{transform:scaleX(1)}
+.vk-i.show .vk-lab span{opacity:1}
+.vk-i.gone .vk-pic{opacity:0;scale:.2;rotate:8deg;transition-delay:0s}
+.vk-i.gone .vk-lab{transform:scaleX(0);transition-delay:.2s}
+.vk-i.gone .vk-lab span{opacity:0;transition-delay:0s}
+.sndbtn{background:rgba(255,255,255,.92);width:48px;height:48px;border-radius:50%;font-size:20px;box-shadow:0 6px 20px rgba(0,0,0,.12);margin-right:12px}
 /* dialogue */
 .where{color:#8a8070;margin-top:-1vh;margin-bottom:1.5vh}
 .lines{flex:1;display:flex;flex-direction:column;gap:1.4vh;justify-content:flex-start}
@@ -235,6 +267,8 @@ body.hubmode #hud,body.hubmode #minimap{opacity:0;pointer-events:none;transform:
 .qgrid{flex:1;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:2vh 1.5vw;perspective:1200px}
 .qc{position:relative;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.3,1.3,.5,1);cursor:pointer}
 .qc.flip{transform:rotateY(180deg)}
+.qf,.qb{backface-visibility:visible!important}.qf{transition:visibility 0s .3s}.qb{visibility:hidden;transition:visibility 0s .3s}
+.qc.flip .qf{visibility:hidden}.qc.flip .qb{visibility:visible}
 .qf,.qb{position:absolute;inset:0;backface-visibility:hidden;border-radius:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2vh 1.5vw}
 .qf{background:#1f4e8c;color:#fff}
 .qf .qn{width:5vh;height:5vh;border-radius:50%;background:#ffc93c;color:#333;font-weight:800;display:flex;align-items:center;justify-content:center;margin-bottom:1.5vh;font-size:2.2vh}
@@ -266,7 +300,7 @@ body.hubmode #hud,body.hubmode #minimap{opacity:0;pointer-events:none;transform:
 
 <div id="hud">
   <div class="brand">🚆 CHUYẾN TÀU XUYÊN VIỆT<small id="where">Ga 1 · Sài Gòn</small></div>
-  <button class="btn" id="btnNext">Ga tiếp theo ▶</button>
+  <div><button class="sndbtn" id="btnSnd" onclick="toggleSound()" title="Bật/tắt âm thanh (M)">🔊</button><button class="btn" id="btnNext">Ga tiếp theo ▶</button></div>
 </div>
 <div id="minimap"><div class="line"></div></div>
 <div id="banner"></div>
@@ -410,6 +444,55 @@ function tween(d,fn,e=ease){return new Promise(r=>{const t0=performance.now();(f
 let toastT;function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("on");clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove("on"),3200)}
 function speak(text){if(!("speechSynthesis" in window))return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang="vi-VN";u.rate=.85;const v=speechSynthesis.getVoices().find(v=>v.lang&&v.lang.toLowerCase().startsWith("vi"));if(v)u.voice=v;else if(!speak.warned){speak.warned=1;toast("Máy chưa có giọng đọc tiếng Việt (vi-VN) — có thể cài thêm trong cài đặt ngôn ngữ của Windows.")}speechSynthesis.speak(u)}
 
+/* ================= ÂM THANH =================
+   Có file thật trong thư mục sounds/ thì dùng file, không thì tự tổng hợp:
+   sounds/coi_tau.mp3 (còi), sounds/dong_co.mp3 (tiếng chạy, lặp), sounds/phanh.mp3 (phanh), sounds/chuong.mp3 (chuông ga) */
+const SND={on:true,ctx:null,files:{},eng:null};
+["coi_tau","dong_co","phanh","chuong"].forEach(k=>{const a=new Audio();const f={el:a,ok:false};a.preload="auto";
+ a.addEventListener("canplaythrough",()=>f.ok=true,{once:true});a.addEventListener("error",()=>f.ok=false,{once:true});a.src=`sounds/${k}.mp3`;SND.files[k]=f});
+function playFile(k,vol=1,loop=false){const f=SND.files[k];if(!f||!f.ok)return null;const a=f.el.cloneNode();a.volume=vol;a.loop=loop;a.play().catch(()=>{});return a}
+function ac(){
+ if(!SND.ctx){const C=window.AudioContext||window.webkitAudioContext;const c=SND.ctx=new C();
+  const comp=c.createDynamicsCompressor();SND.master=c.createGain();SND.master.gain.value=.9;SND.master.connect(comp);comp.connect(c.destination);
+  // tiếng vang ngoài trời
+  const dl=c.createDelay(1);dl.delayTime.value=.32;const fb=c.createGain();fb.gain.value=.28;const dlp=c.createBiquadFilter();dlp.type="lowpass";dlp.frequency.value=1400;
+  dl.connect(dlp);dlp.connect(fb);fb.connect(dl);dlp.connect(SND.master);SND.echo=dl;
+  const n=c.sampleRate*3,w=c.createBuffer(1,n,c.sampleRate),br=c.createBuffer(1,n,c.sampleRate),d=w.getChannelData(0),b=br.getChannelData(0);let last=0;
+  for(let i=0;i<n;i++){d[i]=Math.random()*2-1;last=(last+.02*d[i])/1.02;b[i]=last*3.5}SND.white=w;SND.brown=br}
+ if(SND.ctx.state==="suspended")SND.ctx.resume();return SND.ctx}
+function noiseSrc(buf,loop){const s=SND.ctx.createBufferSource();s.buffer=buf;s.loop=!!loop;return s}
+function horn(){if(!SND.on)return;if(playFile("coi_tau",.9))return;const c=ac(),t=c.currentTime+.05;
+ const blast=(t0,dur)=>{const g=c.createGain();g.gain.setValueAtTime(0,t0);g.gain.linearRampToValueAtTime(.2,t0+.07);g.gain.setValueAtTime(.2,t0+dur-.12);g.gain.exponentialRampToValueAtTime(.001,t0+dur+.35);
+  const lp=c.createBiquadFilter();lp.type="lowpass";lp.frequency.value=1700;lp.Q.value=3;lp.connect(g);g.connect(SND.master);g.connect(SND.echo);
+  [277,349,415].forEach(f=>[-7,7].forEach(dt=>{const o=c.createOscillator();o.type="sawtooth";o.frequency.setValueAtTime(f*.92,t0);o.frequency.exponentialRampToValueAtTime(f,t0+.1);o.detune.value=dt;o.connect(lp);o.start(t0);o.stop(t0+dur+.4)}))};
+ blast(t,1.3);blast(t+1.55,.45)}
+function engineStart(){if(!SND.on||SND.eng)return;const c=ac(),t=c.currentTime;const E=SND.eng={};
+ const f=playFile("dong_co",.0,true);if(f){E.file=f;return}
+ E.out=c.createGain();E.out.gain.setValueAtTime(0,t);E.out.gain.linearRampToValueAtTime(1,t+1.2);E.out.connect(SND.master);
+ E.n=noiseSrc(SND.brown,true);E.lp=c.createBiquadFilter();E.lp.type="lowpass";E.lp.frequency.value=160;E.ng=c.createGain();E.ng.gain.value=.35;E.n.connect(E.lp);E.lp.connect(E.ng);E.ng.connect(E.out);E.n.start();
+ E.o=c.createOscillator();E.o.type="sawtooth";E.o.frequency.value=38;E.lp2=c.createBiquadFilter();E.lp2.type="lowpass";E.lp2.frequency.value=130;E.am=c.createGain();E.am.gain.value=.12;
+ E.lfo=c.createOscillator();E.lfo.frequency.value=5;E.lg=c.createGain();E.lg.gain.value=.08;E.lfo.connect(E.lg);E.lg.connect(E.am.gain);
+ E.o.connect(E.lp2);E.lp2.connect(E.am);E.am.connect(E.out);E.o.start();E.lfo.start();
+ // tiếng gió/rì rào khi chạy nhanh
+ E.w=noiseSrc(SND.white,true);E.bp=c.createBiquadFilter();E.bp.type="bandpass";E.bp.frequency.value=700;E.bp.Q.value=.6;E.wg=c.createGain();E.wg.gain.value=0;E.w.connect(E.bp);E.bp.connect(E.wg);E.wg.connect(E.out);E.w.start()}
+function engineSpeed(v){const E=SND.eng;if(!E)return;if(E.file){E.file.volume=Math.min(1,.25+.6*v);E.file.playbackRate=.85+.4*v;return}const t=SND.ctx.currentTime;
+ E.lfo.frequency.setTargetAtTime(4+11*v,t,.1);E.o.frequency.setTargetAtTime(36+22*v,t,.1);E.lp.frequency.setTargetAtTime(150+250*v,t,.1);E.ng.gain.setTargetAtTime(.3+.3*v,t,.1);E.wg.gain.setTargetAtTime(.07*v,t,.2)}
+function engineStop(){const E=SND.eng;if(!E)return;SND.eng=null;if(E.file){const a=E.file;let v=a.volume;const iv=setInterval(()=>{v-=.05;if(v<=0){a.pause();clearInterval(iv)}else a.volume=v},80);return}
+ const t=SND.ctx.currentTime;E.out.gain.setTargetAtTime(0,t,.5);setTimeout(()=>{[E.n,E.o,E.lfo,E.w].forEach(x=>{try{x.stop()}catch(e){}})},3000)}
+function clack(vol){if(!SND.on||!SND.ctx)return;const c=SND.ctx,t=c.currentTime;
+ const n=noiseSrc(SND.white);const bp=c.createBiquadFilter();bp.type="bandpass";bp.frequency.value=1800+Math.random()*600;bp.Q.value=1.2;const g=c.createGain();g.gain.setValueAtTime(.35*vol,t);g.gain.exponentialRampToValueAtTime(.001,t+.06);
+ n.connect(bp);bp.connect(g);g.connect(SND.master);n.start(t,Math.random()*2,.08);
+ const o=c.createOscillator();o.frequency.setValueAtTime(120,t);o.frequency.exponentialRampToValueAtTime(55,t+.09);const og=c.createGain();og.gain.setValueAtTime(.5*vol,t);og.gain.exponentialRampToValueAtTime(.001,t+.12);o.connect(og);og.connect(SND.master);o.start(t);o.stop(t+.15)}
+function squeal(){if(!SND.on)return;if(playFile("phanh",.6))return;const c=ac(),t=c.currentTime,g=c.createGain();
+ g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.035,t+.5);g.gain.setValueAtTime(.035,t+1.3);g.gain.linearRampToValueAtTime(0,t+2);g.connect(SND.master);g.connect(SND.echo);
+ [3150,3420].forEach(f=>{const o=c.createOscillator();o.frequency.value=f;const l=c.createOscillator();l.frequency.value=6+Math.random()*3;const lg=c.createGain();lg.gain.value=30;l.connect(lg);lg.connect(o.frequency);o.connect(g);o.start(t);l.start(t);o.stop(t+2.1);l.stop(t+2.1)});
+ const n=noiseSrc(SND.white);const bp=c.createBiquadFilter();bp.type="bandpass";bp.frequency.value=4200;bp.Q.value=6;const ng=c.createGain();ng.gain.value=.5;n.connect(bp);bp.connect(ng);ng.connect(g);n.start(t,0,2.1)}
+function hiss(){if(!SND.on||!SND.ctx)return;const c=SND.ctx,t=c.currentTime;const n=noiseSrc(SND.white);const hp=c.createBiquadFilter();hp.type="highpass";hp.frequency.value=2500;const g=c.createGain();
+ g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.16,t+.05);g.gain.exponentialRampToValueAtTime(.001,t+1.6);n.connect(hp);hp.connect(g);g.connect(SND.master);n.start(t,0,1.7)}
+function chime(){if(!SND.on)return;if(playFile("chuong",.7))return;const c=ac(),t=c.currentTime+.05;
+ [659,523,784,659].forEach((f,i)=>{[1,2.01,3].forEach((h,j)=>{const o=c.createOscillator();o.type="sine";o.frequency.value=f*h;const g=c.createGain();const t0=t+i*.42;g.gain.setValueAtTime(0,t0);g.gain.linearRampToValueAtTime([.14,.04,.02][j],t0+.01);g.gain.exponentialRampToValueAtTime(.001,t0+1.6);o.connect(g);g.connect(SND.master);g.connect(SND.echo);o.start(t0);o.stop(t0+1.7)})})}
+function toggleSound(){SND.on=!SND.on;$("#btnSnd").textContent=SND.on?"🔊":"🔇";if(!SND.on){engineStop();speechSynthesis&&speechSynthesis.cancel()}toast(SND.on?"Đã bật âm thanh":"Đã tắt âm thanh")}
+
 /* ================= THẾ GIỚI ================= */
 const GAP=820,X0=700,stX=i=>X0+i*GAP;
 const world=$("#world"),stage=$("#stage");
@@ -466,17 +549,22 @@ function updateHUD(){$("#where").textContent=`Ga ${cur+1} · ${STATIONS[cur]}`;d
 async function travel(to){
  if(busy||to===cur||to<0||to>=STATIONS.length)return;busy=true;hideBanner();
  const from=trainX,target=stX(to),dist=Math.abs(target-from),dur=Math.min(7500,1800+dist*1.05);
- dir=Math.sign(target-from);train.classList.toggle("rev",dir<0);train.classList.add("moving");
+ dir=Math.sign(target-from);train.classList.toggle("rev",dir<0);
+ if(SND.on){ac();horn();await wait(1500)}
+ train.classList.add("moving");engineStart();let lastJ=Math.floor(from/150),lx=from,lt=performance.now(),sq=false;
  stage.classList.remove("misty");
  const c0={...cam},passed=new Set();const sm=setInterval(puff,130);
  await tween(dur,(e,t)=>{
   trainX=lerp(from,target,e);
+  const now=performance.now(),sp=Math.abs(trainX-lx)/Math.max(1,now-lt)*1000;lx=trainX;lt=now;const v=Math.min(1,sp/900);engineSpeed(v);
+  const j=Math.floor(trainX/150);if(j!==lastJ&&v>.03){lastJ=j;clack(.35+.65*v);setTimeout(()=>clack(.3+.6*v),Math.max(45,110-70*v));if(j%4===0)setTimeout(()=>{clack(.3+.5*v);setTimeout(()=>clack(.3+.5*v),Math.max(45,110-70*v))},Math.max(120,260-140*v))}
+  if(!sq&&t>.8&&dist>500){sq=true;squeal()}
   cam.x=trainX+dir*160*Math.sin(Math.PI*t);
   const k=Math.min(1,t*4);cam.s=lerp(c0.s,1,k)-.2*Math.sin(Math.PI*t);cam.y=lerp(c0.y,-120,k);
   STATIONS.forEach((_,i)=>{if(i!==to&&!passed.has(i)&&Math.abs(trainX-stX(i))<30){passed.add(i);const s=document.querySelector(`.sign[data-i="${i}"]`);s.classList.remove("flash");void s.offsetWidth;s.classList.add("flash")}});
   render();
  });
- clearInterval(sm);train.classList.remove("moving");cur=to;updateHUD();busy=false;arrive(to);
+ clearInterval(sm);train.classList.remove("moving");engineStop();hiss();cur=to;updateHUD();busy=false;arrive(to);
 }
 function showBanner(i){const b=$("#banner"),L=LESSONS[i];b.innerHTML=`<span class="g">GA ${i+1}</span><h1>${STATIONS[i]}</h1>${L?`<p>${L.tag}</p>`:""}`;
  b.animate([{opacity:0,transform:"translateX(-50%) scale(1.6)",filter:"blur(12px)"},{opacity:1,transform:"translateX(-50%) scale(1)",filter:"blur(0)"}],{duration:700,easing:"cubic-bezier(.2,.9,.3,1.2)",fill:"forwards"})}
@@ -485,7 +573,7 @@ async function arrive(i){
  busy=true;const c0={...cam};
  await tween(1200,e=>{cam.x=lerp(c0.x,stX(i),e);cam.s=lerp(c0.s,1.45,e);cam.y=lerp(c0.y,-150,e);render()});
  if(i===2)stage.classList.add("misty");
- showBanner(i);busy=false;
+ showBanner(i);chime();busy=false;
  if(LESSONS[i]){await wait(1500);openHub(i)}
  else toast(`Ga ${i+1} · ${STATIONS[i]}: bài học đang được soạn. Bấm “Ga tiếp theo” để đi tiếp.`);
 }
@@ -541,12 +629,16 @@ async function closeHub(){
 stage.addEventListener("click",()=>{if(mode==="hub")closeHub()});
 
 /* ================= TRÌNH CHIẾU ================= */
-const V={si:0,k:0,rev:1};
+const V={si:0,k:0,rev:1,vmode:(()=>{try{return localStorage.getItem("vmode")||"click"}catch(e){return "click"}})()};
 const R={
  place:s=>`<div class="slide place"><div class="ph" style="background:${s.bg}">${s.img?`<img src="${esc(s.img)}">`:`<div class="ph-ic">${s.icon}</div>`}<div class="ph-loc">📍 ${s.loc}</div>${s.credit?`<div class="ph-cr">${s.credit}</div>`:""}</div>
   <div class="pinfo"><div class="kick pop">${s.time||""}</div><h2 class="pop" style="--i:1">${s.title}</h2><h4 class="pop" style="--i:2">Ở đây có gì? <span style="font-weight:400">· What's here?</span></h4>
   ${s.facts.map((f,i)=>`<div class="fact pop" style="--i:${i+3}"><span class="num">${i+1}</span><div><p data-say="${esc(f[0])}">${f[0]} <i class="spk">🔊</i></p><small>${f[1]}</small></div></div>`).join("")}</div></div>`,
- vocab:s=>`<div class="slide"><h2 class="pop">${s.title}</h2><div class="vgrid">${s.items.map(([e,w,en,ex,im],i)=>`<div class="vc pop${im?" has":""}" style="--i:${i+1}" data-say="${esc(w+". "+ex)}">${im?`<div class="vimg" style="background-image:url('${im}')"></div>`:`<div class="ve">${e}</div>`}<b>${w}</b><small>${en}</small><p>${ex}</p></div>`).join("")}</div><div class="hint">Bấm vào thẻ để nghe đọc</div></div>`,
+ vocab:s=>{const m=V.vmode;
+  const bar=`<div class="vbar"><h2 class="pop">${s.title}</h2><button class="mode ${m==="guess"?"on":""}" onclick="setVMode('guess')">🖼️ Đoán từ qua hình</button><button class="mode ${m==="click"?"on":""}" onclick="setVMode('click')">▶ Trình chiếu từng từ</button></div>`;
+  const pic=(e,im)=>im?`<div class="pimg" style="background-image:url('${im}')"></div>`:`<div class="pemo">${e}</div>`;
+  if(m==="guess")return `<div class="slide">${bar}<div class="vgrid" style="perspective:1400px">${s.items.map(([e,w,en,ex,im],i)=>`<div class="qc gc pop" style="--i:${i+1}" data-w="${esc(w)}" onclick="flipCard(this)"><div class="qf gf">${pic(e,im)}<span class="gn">${i+1}</span><span class="gq">?</span></div><div class="qb gb"><b>${w}</b><small>${en}</small><p>${ex}</p><button class="spk" onclick="event.stopPropagation();speak(this.dataset.t)" data-t="${esc(w+". "+ex)}">🔊</button></div></div>`).join("")}</div><div class="hint">Học sinh nhìn hình đoán từ · bấm thẻ hoặc → để lật</div></div>`;
+  return `<div class="slide">${bar}<div class="vgrid">${s.items.map(([e,w,en,ex,im])=>`<div class="vk-i" data-say="${esc(w+". "+ex)}"><div class="vk-pic">${pic(e,im)}</div><div class="vk-lab"><span><b>${w}</b><small>${en}</small></span></div></div>`).join("")}</div><div class="hint">Bấm → / Space để hiện từ tiếp theo · bấm vào từ để nghe</div></div>`},
  dialogue:s=>`<div class="slide"><h2 class="pop">${s.title}</h2><div class="where pop" style="--i:1">🕐 ${s.where}</div><div class="lines">${s.lines.map(([k,vi,en])=>{const p=SPK[k];return `<div class="line ${k==="Alex"?"r":""}"><div class="av" style="background:${p.c}">${p.ab}</div><div class="bub"><span class="who">${k}</span><p>${vi}</p><small>${en}</small><button class="spk" data-say="${esc(vi)}">🔊</button></div></div>`}).join("")}</div>${s.tag?`<div class="tagp">${s.tag}</div>`:""}<div class="hint">Bấm → / Space để hiện câu tiếp theo</div></div>`,
  menu:s=>`<div class="slide"><h2 class="pop">${s.title}</h2><div class="mwrap"><div class="paper pop" style="--i:1"><div class="mh">THỰC ĐƠN · MENU</div>${s.items.map(([vi,en,p],i)=>`<div class="mi pop" style="--i:${i+2}" data-say="${esc(vi)}"><span><b>${vi}</b><small>${en}</small></span><em>${p}</em></div>`).join("")}<div class="mfoot">Giá minh họa, tham khảo</div></div>
   <div class="phr"><h4 class="pop" style="--i:3">Mẫu câu gọi món</h4>${s.phrases.map(([vi,en],i)=>`<div class="fact pop" style="--i:${i+4}"><span class="num">${i+1}</span><div><p data-say="${esc(vi)}">${vi} <i class="spk">🔊</i></p><small>${en}</small></div></div>`).join("")}</div></div></div>`,
@@ -557,9 +649,13 @@ const R={
   <div class="qgrid">${s.items.map(([q,a],i)=>`<div class="qc pop" style="--i:${i+2}" onclick="this.classList.toggle('flip')"><div class="qf"><div class="qn">${i+1}</div><p>${q}</p></div><div class="qb">${a}<small>Đáp án gợi ý</small></div></div>`).join("")}</div></div>`
 };
 const curStop=()=>LESSONS[hubIdx].stops[V.si],curSlide=()=>curStop().slides[V.k];
-function applyReveal(){const ls=$(".v-body .slide:last-child").querySelectorAll(".line");ls.forEach((l,i)=>l.classList.toggle("show",i<V.rev))}
+function lastSlide(){return $(".v-body").lastElementChild}
+function applyReveal(){const sl=lastSlide();sl.querySelectorAll(".line").forEach((l,i)=>l.classList.toggle("show",i<V.rev));sl.querySelectorAll(".vk-i").forEach((l,i)=>l.classList.toggle("show",i<V.rev))}
+const startRev=x=>x.type==="dialogue"?1:0, fullRev=x=>x.type==="dialogue"?x.lines.length:x.type==="vocab"?x.items.length:0;
+function setVMode(m){V.vmode=m;try{localStorage.setItem("vmode",m)}catch(e){}V.rev=0;showSlide(0)}
+function flipCard(c){c.classList.toggle("flip");if(c.classList.contains("flip")&&SND.on)speak(c.dataset.w)}
 function showSlide(d){
- const st=curStop(),s=curSlide(),body=$(".v-body");
+ const st=curStop(),s=curSlide(),body=$(".v-body");V.exiting=false;
  $(".v-time").textContent=st.time;$(".v-name").textContent=st.name;
  $(".v-count").textContent=`Slide ${V.k+1}/${st.slides.length} · Phần ${V.si+1}/${LESSONS[hubIdx].stops.length}`;
  $(".v-back").textContent=`← Về sân ga ${LESSONS[hubIdx].name}`;
@@ -569,23 +665,36 @@ function showSlide(d){
  olds.forEach(o=>{if(o.classList.contains("out")){o.remove();return}o.classList.add("out");o.style.pointerEvents="none";
   o.animate([{opacity:1,transform:"none"},{opacity:0,transform:`translateX(${-d*80}px) scale(.96)`}],{duration:300,easing:"ease-in",fill:"forwards"}).onfinish=()=>o.remove()});
  body.insertAdjacentHTML("beforeend",R[s.type](s));const nw=body.lastElementChild;
- if(old){nw.animate([{opacity:0,transform:`translateX(${d*100}px) scale(.98)`},{opacity:1,transform:"none"}],{duration:550,easing:"cubic-bezier(.2,.9,.3,1)"})}
- if(s.type==="dialogue")setTimeout(applyReveal,old?250:500);
+ if(old)nw.animate([{opacity:0,transform:`translateX(${d*100}px) scale(.98)`},{opacity:1,transform:"none"}],{duration:550,easing:"cubic-bezier(.2,.9,.3,1)"});
+ if(s.type==="dialogue"||s.type==="vocab")setTimeout(applyReveal,old?250:500);
 }
-function next(){const st=curStop(),s=curSlide();
- if(s.type==="dialogue"&&V.rev<s.lines.length){V.rev++;applyReveal();return}
- if(V.k<st.slides.length-1){V.k++;V.rev=1;showSlide(1)}
- else if(V.si<LESSONS[hubIdx].stops.length-1){V.si++;V.k=0;V.rev=1;showSlide(1);toast(`➡ Chuyển sang: ${curStop().time} · ${curStop().name}`)}
+function vocabStep(d){const sl=lastSlide(),s=curSlide();
+ if(V.vmode==="click"){
+  if(d>0){if(V.exiting)return true;
+   if(V.rev<s.items.length){V.rev++;applyReveal();if(SND.on)speak(s.items[V.rev-1][1]);return true}
+   V.exiting=true;const its=[...sl.querySelectorAll(".vk-i")];its.forEach((it,i)=>setTimeout(()=>it.classList.add("gone"),i*70));
+   setTimeout(()=>{V.exiting=false;advance()},its.length*70+550);return true}
+  if(V.rev>0){V.rev--;applyReveal();return true}return false}
+ const cards=[...sl.querySelectorAll(".gc")];
+ if(d>0){const c=cards.find(c=>!c.classList.contains("flip"));if(c){flipCard(c);return true}return false}
+ const c=cards.reverse().find(c=>c.classList.contains("flip"));if(c){c.classList.remove("flip");return true}return false}
+function advance(){const st=curStop();
+ if(V.k<st.slides.length-1){V.k++;V.rev=startRev(curSlide());showSlide(1)}
+ else if(V.si<LESSONS[hubIdx].stops.length-1){V.si++;V.k=0;V.rev=startRev(curSlide());showSlide(1);toast(`➡ Chuyển sang: ${curStop().time} · ${curStop().name}`)}
  else toast("🏁 Hết bài Đà Lạt! Về sân ga để lên tàu đi tiếp.")}
+function next(){const s=curSlide();
+ if(s.type==="dialogue"&&V.rev<s.lines.length){V.rev++;applyReveal();return}
+ if(s.type==="vocab"&&vocabStep(1))return;
+ advance()}
 function prev(){const s=curSlide();
  if(s.type==="dialogue"&&V.rev>1){V.rev--;applyReveal();return}
- const full=x=>x.type==="dialogue"?x.lines.length:1;
- if(V.k>0){V.k--;V.rev=full(curSlide());showSlide(-1)}
- else if(V.si>0){V.si--;V.k=curStop().slides.length-1;V.rev=full(curSlide());showSlide(-1)}}
+ if(s.type==="vocab"&&vocabStep(-1))return;
+ if(V.k>0){V.k--;V.rev=fullRev(curSlide());showSlide(-1)}
+ else if(V.si>0){V.si--;V.k=curStop().slides.length-1;V.rev=fullRev(curSlide());showSlide(-1)}}
 function flipFrom(card,reverse){const vc=$(".v-card"),r=card.getBoundingClientRect(),v=vc.getBoundingClientRect();
  const kf=[{transform:`translate(${r.left-v.left}px,${r.top-v.top}px) scale(${r.width/v.width},${r.height/v.height})`,borderRadius:"60px",opacity:.6},{transform:"none",borderRadius:"26px",opacity:1}];
  if(reverse)kf.reverse();return vc.animate(kf,{duration:reverse?500:700,easing:"cubic-bezier(.7,0,.2,1)",fill:"forwards"})}
-function openViewer(si,card){if(busy)return;mode="viewer";V.si=si;V.k=0;V.rev=1;
+function openViewer(si,card){if(busy)return;mode="viewer";V.si=si;V.k=0;V.rev=startRev(LESSONS[hubIdx].stops[si].slides[0]);
  $(".v-body").innerHTML="";$("#viewer").style.display="block";
  $("#viewer .shade").animate([{opacity:0},{opacity:1}],{duration:500,fill:"forwards"});
  flipFrom(card);setTimeout(()=>showSlide(1),280)}
@@ -605,6 +714,7 @@ $("#btnNext").onclick=()=>{hideIntro();travel(cur+1)};
 addEventListener("keydown",e=>{
  if(mode==="viewer"){if(["ArrowRight"," ","PageDown","Enter"].includes(e.key)){e.preventDefault();next()}else if(["ArrowLeft","PageUp","Backspace"].includes(e.key)){e.preventDefault();prev()}else if(e.key==="Escape")closeViewer();else if(e.key.toLowerCase()==="n")$(".v-notes").classList.toggle("on");else if(e.key.toLowerCase()==="f")$(".v-full").click()}
  else if(mode==="hub"){const n=parseInt(e.key);if(n>=1&&n<=LESSONS[hubIdx].stops.length)openViewer(n-1,$(".hub-grid").children[n-1]);else if(e.key==="Escape")closeHub()}
+ if(e.key.toLowerCase()==="m"&&mode!=="viewer"){toggleSound();return}
  else if(mode==="map"){if(["ArrowRight"," ","PageDown"].includes(e.key)){e.preventDefault();hideIntro();travel(cur+1)}else if(e.key==="ArrowLeft"){hideIntro();travel(cur-1)}else if(e.key==="Enter"&&LESSONS[cur]&&$("#intro").style.display==="none")openHub(cur)}
 });
 addEventListener("resize",render);

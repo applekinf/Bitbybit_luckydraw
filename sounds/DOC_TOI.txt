@@ -1,0 +1,11 @@
+THU MUC AM THANH (khong bat buoc)
+
+Neu de file mp3 that vao day voi dung ten duoi, trang se dung file that thay cho am thanh tu tong hop:
+
+  coi_tau.mp3  - tieng coi tau luc khoi hanh
+  dong_co.mp3  - tieng tau chay (se phat lap lai, nen chon doan khoang 10-30 giay)
+  phanh.mp3    - tieng phanh khi vao ga
+  chuong.mp3   - tieng chuong / loa nha ga khi toi noi
+
+Khong co file nao thi trang van tu tao am thanh (coi, dong co, banh xe qua ray, phanh, xa hoi, chuong ga).
+Nguon am thanh mien phi: freesound.org (chon giay phep CC0), pixabay.com/sound-effects
