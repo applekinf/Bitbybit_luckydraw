@@ -1,11 +1,11 @@
-THU MUC AM THANH (khong bat buoc)
+THU MUC AM THANH
 
-Neu de file mp3 that vao day voi dung ten duoi, trang se dung file that thay cho am thanh tu tong hop:
+Cac file da co san:
+  coi_tau.mp3 - coi tau diesel khi khoi hanh. Nguon: OpenSFX (OpenTTD), goc "Locomotive 1 Distant horn.wav" cua patchen (freesound.org/s/17851), chinh sua: Janis Lukss. Giay phep CC BY 3.0 (can ghi nguon - da ghi o man hinh mo dau).
+  dong_co.mp3 - dong co diesel (lap lai, nhanh dan theo toc do). Nguon: "Diesel engine idling" - chungus43A, Freesound 705386, CC0.
+  xa_hoi.mp3  - tieng xa hoi khi tau dung. Nguon: "Air pressure release" - brunoboselli, Freesound 457294, CC0.
+  chuong.mp3  - chuong "ding-dong" khi toi ga. Nguon: "Old Toronto Subway Chime" - chungus43A, Freesound 720572, CC0.
 
-  coi_tau.mp3  - tieng coi tau luc khoi hanh
-  dong_co.mp3  - tieng tau chay (se phat lap lai, nen chon doan khoang 10-30 giay)
-  phanh.mp3    - tieng phanh khi vao ga
-  chuong.mp3   - tieng chuong / loa nha ga khi toi noi
-
-Khong co file nao thi trang van tu tao am thanh (coi, dong co, banh xe qua ray, phanh, xa hoi, chuong ga).
-Nguon am thanh mien phi: freesound.org (chon giay phep CC0), pixabay.com/sound-effects
+Tieng banh xe qua ray va tieng phanh rit van duoc tong hop bang code.
+Co the them phanh.mp3 (tieng phanh) neu tim duoc file that.
+Muon doi am thanh: thay file moi, GIU NGUYEN TEN FILE.
