@@ -1,0 +1,126 @@
+{
+ "version": 1,
+ "saved": "2026-11-19T03:26:05.731Z",
+ "cfg": {
+  "title": "Cô",
+  "teacher": "",
+  "student": "Alex",
+  "voice": "",
+  "en": true
+ },
+ "ov": {},
+ "co": {
+  "2-3-1": {
+   "vd": {
+    "src": "https://www.youtube.com/watch?v=25sBe7vOa0E",
+    "cues": [
+     {
+      "title": "Vào vườn",
+      "t": 8,
+      "b": {
+       "q": "Chú chủ vườn mời vào. Em muốn hỏi có được hái trái nào cũng được không.",
+       "en": "The owner invites you in. Ask if you can pick any strawberry.",
+       "lines": [
+        [
+         "Chú chủ vườn",
+         "Mời hai {t} cháu vô vườn hái dâu nè!",
+         "Come in and pick strawberries!"
+        ],
+        [
+         "{S}",
+         "Dạ, con hái trái nào cũng được hả chú?",
+         "Can I pick any one I like?"
+        ],
+        [
+         "Chú chủ vườn",
+         "Con lựa trái chín đỏ thôi nha, trái xanh còn chua.",
+         "Only the ripe red ones; the green ones are still sour."
+        ]
+       ]
+      },
+      "a": {
+       "q": "Hỏi chú cách hái dâu cho đúng.",
+       "lines": [
+        [
+         "Chú chủ vườn",
+         "Mời hai {t} cháu vô vườn hái dâu nè!",
+         "Come in and pick strawberries!"
+        ],
+        [
+         "{S}",
+         "Dạ, con hái trái nào cũng được hả chú?",
+         "Can I pick any one I like?"
+        ],
+        [
+         "Chú chủ vườn",
+         "Con lựa trái chín đỏ thôi nha, trái xanh còn chua.",
+         "Only the ripe red ones; the green ones are still sour."
+        ]
+       ]
+      }
+     },
+     {
+      "title": "Khen dâu",
+      "t": 83.3,
+      "b": {
+       "q": "Trái dâu bự và ngọt quá! Em khen thế nào?",
+       "en": "The strawberry is big and sweet. How do you praise it?",
+       "lines": [
+        [
+         "{S}",
+         "{T} ơi, trái này bự với ngọt quá!",
+         "This one is big and so sweet!"
+        ]
+       ]
+      },
+      "a": {
+       "q": "Khen dâu và kể cảm nhận của em với {t}.",
+       "lines": [
+        [
+         "{S}",
+         "{T} ơi, trái này bự với ngọt quá!",
+         "This one is big and so sweet!"
+        ]
+       ]
+      }
+     },
+     {
+      "title": "Hỏi giá",
+      "t": 130.6,
+      "b": {
+       "q": "Hái xong rồi. Hỏi giá một ký dâu.",
+       "en": "You're done picking. Ask the price per kilo.",
+       "lines": [
+        [
+         "{T}",
+         "Hái xong mình cân nha chú. Dâu bao nhiêu một ký vậy chú?",
+         "We'll weigh them when we're done. How much per kilo?"
+        ],
+        [
+         "Chú chủ vườn",
+         "Hai trăm ngàn một ký nha {t}.",
+         "Two hundred thousand per kilo."
+        ]
+       ]
+      },
+      "a": {
+       "q": "Hỏi giá, rồi hỏi mua nhiều có bớt không.",
+       "lines": [
+        [
+         "{T}",
+         "Hái xong mình cân nha chú. Dâu bao nhiêu một ký vậy chú?",
+         "We'll weigh them when we're done. How much per kilo?"
+        ],
+        [
+         "Chú chủ vườn",
+         "Hai trăm ngàn một ký nha {t}.",
+         "Two hundred thousand per kilo."
+        ]
+       ]
+      }
+     }
+    ]
+   }
+  }
+ }
+}

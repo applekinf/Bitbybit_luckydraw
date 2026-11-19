@@ -1,0 +1,15 @@
+CACH MO BAI HOC
+
+WINDOWS: nhap dup file ChayBaiHoc.bat
+
+MAC:
+  Lan dau tien:
+   1. Mo ung dung Terminal (Command + Space, go "Terminal").
+   2. Go:  chmod +x  (co dau cach o cuoi), roi keo tha file ChayBaiHoc_Mac.command vao cua so Terminal, bam Enter.
+   3. Neu Mac hoi cai "Command Line Tools", bam Cai dat (Install) va doi xong.
+  Tu lan sau: nhap dup ChayBaiHoc_Mac.command.
+  Neu Mac bao "khong the mo vi tu nha phat trien khong xac dinh": bam chuot phai vao file > Open (Mo) > Open.
+
+Giu cua so den (Terminal / cmd) mo trong luc day. Dong cua so de tat bai hoc.
+Moi thay doi luu trong thu muc data, images/custom, images/icons, videos.
+Chep CA THU MUC sang may khac (Windows hoac Mac) la mang theo du.

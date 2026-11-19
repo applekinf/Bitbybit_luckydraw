@@ -1,0 +1,5 @@
+THU MUC VIDEO
+
+Chep video (mp4) vao day, vi du: dalat.mp4
+Trong bai hoc, bam nut but chi (Sua noi dung) o slide Hoi thoai,
+roi dan duong dan: videos/dalat.mp4  (hoac bam "Tai len" de chep tu dong khi mo bang ChayBaiHoc.bat)
