@@ -959,7 +959,7 @@ function vdRender(s){const d=vdData(s),E=V.edit;
   <div class="vd-right"><div class="vd-top"><div class="vd-tabs"><button data-l="b" class="${V.level==="b"?"on":""}">🌱 Cơ bản</button><button data-l="a" class="${V.level==="a"?"on":""}">🚀 Nâng cao</button></div></div>
   <div class="vd-chips"></div><div class="vd-panel"></div></div></div>`}
 function initVD(sl,s){const d=JSON.parse(JSON.stringify(vdData(s))),E=V.edit,stage=sl.querySelector(".vd-stage");let P=null,lastT=0,atCue=false,raf;
- const st=curStop(),ov=OV[hubIdx+"-"+V.si]||{},poster=ov.img||st.img||"";
+ const st=curStop(),ov=OV[hubIdx+"-"+V.si]||{},poster=ov.img||st.img||"";let started=false;
  const persist=()=>vdSave(JSON.parse(JSON.stringify(d)));
  // ---- player ----
  function mkPlayer(){stage.innerHTML="";P=null;const src=(d.src||"").trim();
@@ -971,7 +971,7 @@ function initVD(sl,s){const d=JSON.parse(JSON.stringify(vdData(s))),E=V.edit,sta
   stage.innerHTML=`<video src="${esc(src)}" playsinline preload="metadata" poster="${esc(poster)}"></video>`;const v=stage.querySelector("video");
   P={play:()=>v.play(),pause:()=>v.pause(),seek:t=>{v.currentTime=t},time:()=>v.currentTime,dur:()=>v.duration||0,paused:()=>v.paused};
   v.addEventListener("loadedmetadata",()=>{if(V.vdTime)v.currentTime=V.vdTime;drawMarks()});v.addEventListener("click",()=>toggle())}
- function toggle(){if(!P)return;if(P.paused()){atCue=false;ovUpdate();P.play()}else P.pause()}
+ function toggle(){if(!P)return;if(P.paused()){started=true;atCue=false;ovUpdate();P.play()}else P.pause()}
  // ---- marks ----
  const durOf=()=>{const D=P?P.dur():0;return D>0?D:Math.max(60,...d.cues.map(c=>c.t+15))};
  function drawMarks(){const m=sl.querySelector(".vd-marks"),D=durOf();m.innerHTML=d.cues.map((c,i)=>`<span class="vd-mk ${i<V.vc?"done":""} ${i===V.vc?"now":""}" data-i="${i}" style="left:${Math.min(100,c.t/D*100)}%">${i+1}<em>${fmt(c.t)}</em></span>`).join("");
@@ -980,16 +980,16 @@ function initVD(sl,s){const d=JSON.parse(JSON.stringify(vdData(s))),E=V.edit,sta
     const mv=ev=>{if(Math.abs(ev.clientX-x0)>3)k._drag=true;if(!k._drag)return;const f=Math.max(0,Math.min(1,(ev.clientX-r.left)/r.width));d.cues[i].t=Math.round(f*DD*10)/10;k.style.left=f*100+"%";k.querySelector("em").textContent=fmt(d.cues[i].t);if(P)P.seek(d.cues[i].t)};
     const up=()=>{k.removeEventListener("pointermove",mv);k.removeEventListener("pointerup",up);k.removeEventListener("pointercancel",up);k.classList.remove("drag");if(k._drag){const c=d.cues[i];d.cues.sort((a,b)=>a.t-b.t);V.vc=d.cues.indexOf(c);lastT=c.t;persist();drawMarks();panel();setTimeout(()=>k._drag=false,0)}};
     k.addEventListener("pointermove",mv);k.addEventListener("pointerup",up);k.addEventListener("pointercancel",up)}})}
- sl.querySelector(".vd-bar").onclick=e=>{if(!P||e.target.closest(".vd-mk"))return;const r=e.currentTarget.getBoundingClientRect();const t=(e.clientX-r.left)/r.width*P.dur();P.seek(t);lastT=t;V.vc=d.cues.filter(c=>c.t<=t).length-1;atCue=false;panel();ovUpdate();drawMarks()};
+ sl.querySelector(".vd-bar").onclick=e=>{if(!P||e.target.closest(".vd-mk"))return;const r=e.currentTarget.getBoundingClientRect();const t=(e.clientX-r.left)/r.width*P.dur();P.seek(t);lastT=t;started=true;V.vc=d.cues.filter(c=>c.t<=t).length-1;atCue=false;panel();ovUpdate();drawMarks()};
  sl.querySelector(".vd-pp").onclick=toggle;
- sl.querySelector(".vd-rep").onclick=()=>{if(!P)return;const i=Math.max(0,V.vc);const from=i>0?d.cues[i-1].t:0;P.seek(from);lastT=from;V.vc=i-1;atCue=false;ovUpdate();P.play()};
+ sl.querySelector(".vd-rep").onclick=()=>{if(!P)return;const i=Math.max(0,V.vc);const from=i>0?d.cues[i-1].t:0;P.seek(from);lastT=from;V.vc=i-1;started=true;atCue=false;ovUpdate();P.play()};
  // ---- loop ----
  function loop(){if(!sl.isConnected){cancelAnimationFrame(raf);return}raf=requestAnimationFrame(loop);if(!P)return;const t=P.time(),D=P.dur();
   sl.querySelector(".vd-fill").style.width=(D?t/D*100:0)+"%";sl.querySelector(".vd-time").textContent=`${fmt(t)} / ${fmt(D)}`;sl.querySelector(".vd-pp").textContent=P.paused()?"▶":"❚❚";if(E){const ad=sl.querySelector(".vd-chips .add");if(ad)ad.textContent="＋ Cảnh tại "+fmt(t)}
-  if(!P.paused()){const i=d.cues.findIndex(c=>c.t>lastT+.05&&c.t<=t+.05);if(i>=0){P.pause();P.seek(d.cues[i].t);V.vc=i;V.rev=0;atCue=true;panel();ovUpdate();drawMarks()}}V.vdTime=t;lastT=t}
+  if(!P.paused()){started=true;const o=sl.querySelector(".vd-ov");if(o.classList.contains("on")){atCue=false;o.className="vd-ov"}const i=d.cues.findIndex(c=>c.t>lastT+.05&&c.t<=t+.05);if(i>=0){P.pause();P.seek(d.cues[i].t);V.vc=i;V.rev=0;atCue=true;panel();ovUpdate();drawMarks()}}V.vdTime=t;lastT=t}
  // ---- overlay ----
  function ovUpdate(){const o=sl.querySelector(".vd-ov"),c=d.cues[V.vc],noVid=!P;
-  if(!c&&!E){o.className="vd-ov on start";o.innerHTML=tx(`<div class="k">🎬 ${d.cues.length} CẢNH</div><h2>${s.title}</h2><button class="btn vd-go">▶ Bắt đầu xem</button>`);o.querySelector(".vd-go").onclick=()=>{if(P){atCue=false;ovUpdate();P.play()}else goCue(0)};return}
+  if(!c&&!E&&!started){o.className="vd-ov on start";o.innerHTML=tx(`<div class="k">🎬 ${d.cues.length} CẢNH</div><h2>${s.title}</h2><button class="btn vd-go">▶ Bắt đầu xem</button>`);o.querySelector(".vd-go").onclick=()=>{started=true;if(P){atCue=false;ovUpdate();P.play()}else goCue(0)};return}
   if(c&&(atCue||noVid)&&!E){const lv=c[V.level];o.className="vd-ov on";o.innerHTML=tx(`<div class="k">⏸ CẢNH ${V.vc+1} / ${d.cues.length}${P?" · "+fmt(c.t):""}</div><h2>${lv.q}</h2><div class="who">${roles(lv.lines)}</div>`);return}
   o.className="vd-ov";o.innerHTML=""}
  const roles=lines=>{const ks=[...new Set(lines.map(l=>l[0]))];return ks.map(k=>{const p=spk(k);return `<span class="av" style="background:${p.c}">${p.ab}</span>${p.n}`}).join(" · ")};
@@ -1015,14 +1015,14 @@ function initVD(sl,s){const d=JSON.parse(JSON.stringify(vdData(s))),E=V.edit,sta
   const ti=pn.querySelector(".vd-t");ti.onchange=()=>{c.t=parseT(ti.value);d.cues.sort((a,b)=>a.t-b.t);V.vc=d.cues.indexOf(c);persist();panel();drawMarks()};
   pn.querySelector(".vd-tnow").onclick=()=>{if(!P)return toast("Chưa có video");c.t=Math.round(P.time()*10)/10;d.cues.sort((a,b)=>a.t-b.t);V.vc=d.cues.indexOf(c);persist();panel();drawMarks()};
   pn.querySelector(".vd-cdel").onclick=()=>{if(!confirm("Xóa cảnh này?"))return;d.cues.splice(V.vc,1);V.vc=Math.min(V.vc,d.cues.length-1);persist();panel();drawMarks()}}
- function goCue(i,show){if(i<0||i>=d.cues.length)return;V.vc=i;V.rev=0;atCue=true;if(P){P.pause();const from=d.cues[i].t;P.seek(from);lastT=from}panel();ovUpdate();drawMarks()}
+ function goCue(i,show){if(i<0||i>=d.cues.length)return;started=true;V.vc=i;V.rev=0;atCue=true;if(P){P.pause();const from=d.cues[i].t;P.seek(from);lastT=from}panel();ovUpdate();drawMarks()}
  // ---- tabs ----
  sl.querySelectorAll(".vd-tabs button").forEach(b=>b.onclick=()=>{V.level=b.dataset.l;try{localStorage.setItem("vdlevel",V.level)}catch(e){}sl.querySelectorAll(".vd-tabs button").forEach(x=>x.classList.toggle("on",x===b));V.rev=E?V.rev:0;panel();ovUpdate()});
  // ---- edit: video source ----
  if(E){const inp=sl.querySelector(".vd-srcin");sl.querySelector(".vd-srcok").onclick=()=>{d.src=inp.value.trim();persist();V.vdTime=0;mkPlayer();drawMarks()};inp.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();sl.querySelector(".vd-srcok").click()}});
   sl.querySelector(".vd-up input").onchange=e=>{const f=e.target.files[0];if(!f)return;if(SERVER){toast("Đang chép video vào thư mục bài học…");uploadBlob(f,"videos",f.name).then(pth=>{d.src=pth;inp.value=pth;persist();mkPlayer();toast("Đã lưu video ✓")}).catch(()=>toast("Không lưu được video"))}else{d.src=URL.createObjectURL(f);inp.value="(tạm) "+f.name;mkPlayer();toast("Video chỉ dùng tạm — mở bằng ChayBaiHoc.bat để lưu lâu dài")}}}
  // ---- step api for keyboard ----
- sl._vd={d,get P(){return P},goCue,panel,play:()=>{if(P){atCue=false;ovUpdate();P.play()}}};
+ sl._vd={d,get P(){return P},goCue,panel,play:()=>{started=true;if(P){atCue=false;ovUpdate();P.play()}}};
  mkPlayer();if(E&&V.vc<0&&d.cues.length)V.vc=0;drawMarks();panel();ovUpdate();loop()}
 function vdStep(dir){const sl=lastSlide(),X=sl&&sl._vd;if(!X||V.edit)return false;const d=X.d,c=d.cues[V.vc];
  if(dir>0){if(!c){if(X.P)X.play();else X.goCue(0);return true}
